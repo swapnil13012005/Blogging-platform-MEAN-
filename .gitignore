@@ -1,7 +1,51 @@
+# Dependencies
 node_modules/
-.env
-*.log
-.DS_Store
+package-lock.json
+yarn.lock
+
+# Production builds
 dist/
 build/
+frontend/dist/
+backend/dist/
+
+# Angular
+.angular/
+angular-errors.log
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE and editors
+.vscode/
 .idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.karma-runner.log
+karma.conf.js
+
+# Temp files
+tmp/
+temp/

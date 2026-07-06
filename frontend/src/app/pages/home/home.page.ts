@@ -32,7 +32,13 @@ import { BlogPost } from '../../models/blog';
       <h2 class="h4 fw-bold">Latest Posts</h2>
       <app-loading-spinner *ngIf="loading"></app-loading-spinner>
       <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-      <div class="row g-4 mt-2" *ngIf="!loading">
+      
+      <div *ngIf="!loading && posts.length === 0" class="alert alert-info text-center py-5">
+        <i class="bi bi-inbox fs-1"></i>
+        <p class="mt-3 mb-0">No posts yet. Be the first to share your thoughts!</p>
+      </div>
+      
+      <div class="row g-4 mt-2" *ngIf="!loading && posts.length > 0">
         <div class="col-md-6 col-xl-4" *ngFor="let post of posts">
           <app-blog-card [post]="post"></app-blog-card>
         </div>
