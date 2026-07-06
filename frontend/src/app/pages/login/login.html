@@ -1,0 +1,16 @@
+<section class="card auth-card">
+  <h1 class="page-title">Login</h1>
+  <p class="page-subtitle">Sign in to write and manage your posts.</p>
+  <div *ngIf="error" class="alert">{{ error }}</div>
+  <form class="form-grid" (ngSubmit)="submit()">
+    <label>
+      Username
+      <input [(ngModel)]="form.username" name="username" required />
+    </label>
+    <label>
+      Password
+      <input type="password" [(ngModel)]="form.password" name="password" required />
+    </label>
+    <button type="submit" [disabled]="loading">{{ loading ? 'Signing in...' : 'Login' }}</button>
+  </form>
+</section>
