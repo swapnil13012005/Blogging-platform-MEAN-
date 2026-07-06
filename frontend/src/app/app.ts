@@ -1,20 +1,18 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { NgIf } from '@angular/common';
-import { AuthService } from './services/auth';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIf],
-  templateUrl: './app.html',
+  imports: [RouterOutlet, NavbarComponent, FooterComponent],
+  template: `
+    <app-navbar></app-navbar>
+    <main class="container py-4">
+      <router-outlet></router-outlet>
+    </main>
+    <app-footer></app-footer>
+  `,
   styleUrl: './app.css'
 })
-export class App {
-  authService = inject(AuthService);
-  router = inject(Router);
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigateByUrl('/');
-  }
-}
+export class App {}

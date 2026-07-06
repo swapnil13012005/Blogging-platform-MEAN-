@@ -1,117 +1,65 @@
-# MEAN Blog Platform
+# Blogging Platform (MEAN)
 
-A full-stack blogging application built with the **MEAN Stack**:
-- **M**ongoDB - NoSQL Database
-- **E**xpress.js - Backend Framework
-- **A**ngular - Frontend Framework (Modern Browser API)
-- **N**ode.js - JavaScript Runtime
+A full-stack blogging platform built with Node.js, Express, MongoDB, and Angular.
 
-## Project Structure
+## Features
+- User authentication with JWT
+- Create, read, update, and delete blog posts
+- Responsive Angular UI with Bootstrap 5
+- Protected routes for authenticated users
+- Blog details and profile pages
 
+## Folder Structure
+```text
+Blogging-platform-MEAN/
+├── backend/              # Express + MongoDB API
+├── frontend/             # Angular application
+└── README.md             # Project documentation
 ```
-mean-blog/
-├── models/              # Mongoose schemas (User, Post)
-├── controllers/         # Business logic
-├── routes/              # API endpoints
-├── middleware/          # Authentication middleware
-├── public/              # Static frontend files
-├── config/              # Configuration files
-├── server.js            # Express server entry point
-├── package.json         # Node.js dependencies
-├── .env                 # Environment variables
-└── .gitignore          # Git ignore rules
-```
-
-## Prerequisites
-
-- Node.js v14+ 
-- MongoDB running on localhost:27017
-- npm or yarn
 
 ## Installation
 
-1. Install dependencies:
+### Backend
 ```bash
+cd backend
 npm install
-```
-
-2. Make sure MongoDB is running:
-```bash
-mongod
-```
-
-3. Start the server:
-```bash
 npm start
 ```
 
-Or for development with auto-reload:
+### Frontend
 ```bash
-npm run dev
+cd frontend
+npm install
+ng serve --proxy-config src/proxy.conf.json
 ```
 
-The app will be available at: **http://localhost:5000**
+## Environment Variables
+Create a `.env` file in the backend folder:
+```env
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/mean_blog_db
+JWT_SECRET=your_jwt_secret_key
+```
 
-## Technology Stack
-
-### Backend
-- **Express.js** - REST API framework
-- **Mongoose** - MongoDB object modeling
-- **JWT** - Token-based authentication
-- **bcryptjs** - Password hashing
-
-### Frontend
-- **HTML5 / CSS3** - Structure and styling
-- **Vanilla JavaScript** - Frontend logic
-- **Bootstrap 5** - UI Components
-- **localStorage** - Client-side token storage
-
-### Database
-- **MongoDB** - NoSQL database
-- Collections: users, posts
+## Running the App
+- Backend: http://localhost:5000
+- Frontend: http://localhost:4200
 
 ## API Endpoints
+- POST /api/auth/register
+- POST /api/auth/login
+- GET /api/auth/me
+- GET /api/posts
+- GET /api/posts/:id
+- POST /api/posts
+- PUT /api/posts/:id
+- DELETE /api/posts/:id
 
-### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login and get JWT token
-- `GET /api/auth/me` - Get current user (requires auth)
+## Screenshots
+Add screenshots of the home page, login, create post, and blog details here.
 
-### Posts
-- `GET /api/posts` - Get all posts
-- `GET /api/posts/:id` - Get specific post
-- `POST /api/posts` - Create post (requires auth)
-- `PUT /api/posts/:id` - Update post (requires auth)
-- `DELETE /api/posts/:id` - Delete post (requires auth)
-- `POST /api/posts/setup/seed` - Seed demo data
-
-## Demo Credentials
-
-After seeding the database, you can login with:
-- Username: alice | Password: password123
-- Username: bob | Password: password123
-- Username: charlie | Password: password123
-
-## Features
-
-✅ User registration and authentication
-✅ JWT-based authorization
-✅ Create, read, update, delete blog posts
-✅ User-based post authorization (only authors can delete)
-✅ Responsive UI with Bootstrap
-✅ Real-time post updates
-✅ Password hashing with bcrypt
-✅ REST API architecture
-
-## Development
-
-The server runs on port 5000 by default. MongoDB should be running on localhost:27017.
-
-For production deployment:
-1. Add environment variables for MongoDB URI and JWT secret
-2. Build optimized frontend assets
-3. Use a production-grade server (Gunicorn, PM2, etc.)
-
-## License
-
-MIT
+## Future Improvements
+- Edit and delete actions from the UI
+- Image uploads
+- Comments and likes
+- Admin dashboard

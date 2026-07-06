@@ -1,0 +1,15 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-footer',
+  standalone: true,
+  template: `
+    <footer class="bg-dark text-white py-4 mt-5">
+      <div class="container text-center">
+        <p class="mb-0">© 2026 MEAN Blog. Built with Angular, Express, Node.js and MongoDB.</p>
+      </div>
+    </footer>
+  `,
+  styles: []
+})
+export class FooterComponent {}
