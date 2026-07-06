@@ -84,8 +84,8 @@ blogging-platform-mean/
 ### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/blogging-platform-mean.git
-cd blogging-platform-mean
+git clone https://github.com/swapnil13012005/Blogging-platform-MEAN-.git
+cd Blogging-platform-MEAN
 ```
 
 ## ⚙️ Backend Setup
@@ -515,7 +515,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
 
 ## 👨‍💻 Author
 
-Your Name - [GitHub](https://github.com/yourusername)
+Your Name - [GitHub](https://github.com/swapnil13012005)
 
 ## 🤝 Contributing
 
@@ -526,10 +526,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
-## 📞 Support
-
-For support, email support@yourdomain.com or open an issue on GitHub.
 
 ---
 
