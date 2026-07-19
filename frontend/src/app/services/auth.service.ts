@@ -18,7 +18,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private tokenService: TokenService
-  ) {}
+  ) { }
 
   login(credentials: { username: string; password: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
@@ -41,6 +41,24 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.tokenService.getToken();
+    const token = this.tokenService.getToken();
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+
+      if (!payload.exp || payload.exp * 1000 <= Date.now()) {
+        this.tokenService.removeToken();
+        return false;
+      }
+
+      return true;
+    } catch {
+      this.tokenService.removeToken();
+      return false;
+    }
   }
 }
