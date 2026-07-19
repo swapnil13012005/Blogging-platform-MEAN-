@@ -95,7 +95,7 @@ import {
             <button
               type="button"
               class="btn btn-outline-primary"
-              [disabled]="aiLoading !== null"
+              [disabled]="aiLoading !== null || loading"
               (click)="useAI('suggest')"
             >
               <span
@@ -335,9 +335,6 @@ export class CreateBlogPage {
     if (!this.previousContent) {
       return;
     }
-
-    const correctedContent =
-      this.form.controls['content'].value || '';
 
     this.form.patchValue({
       content: this.previousContent
