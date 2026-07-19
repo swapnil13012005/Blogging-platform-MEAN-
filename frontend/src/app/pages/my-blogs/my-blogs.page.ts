@@ -5,7 +5,6 @@ import {
   inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
 import { BlogPost } from '../../models/blog';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
@@ -16,7 +15,6 @@ import { BlogCardComponent } from '../../components/blog-card/blog-card.componen
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     LoadingSpinnerComponent,
     BlogCardComponent
   ],
@@ -29,7 +27,10 @@ import { BlogCardComponent } from '../../components/blog-card/blog-card.componen
           *ngIf="loading"
         ></app-loading-spinner>
 
-        <div *ngIf="error" class="alert alert-danger">
+        <div
+          *ngIf="error"
+          class="alert alert-danger"
+        >
           {{ error }}
         </div>
 
@@ -41,41 +42,20 @@ import { BlogCardComponent } from '../../components/blog-card/blog-card.componen
         </div>
 
         <div
-          class="row g-4 mt-2"
           *ngIf="!loading && posts.length > 0"
+          class="row g-4 mt-2"
         >
           <div
-            class="col-md-6 col-xl-4"
             *ngFor="let post of posts"
+            class="col-md-6 col-xl-4"
           >
-            <div class="d-flex flex-column h-100">
-              <app-blog-card
-                class="flex-grow-1 d-block"
-                [post]="post"
-              ></app-blog-card>
-
-              <div class="d-flex gap-2 pt-3">
-                <a
-                  class="btn btn-warning btn-sm flex-fill"
-                  [routerLink]="['/edit', post._id]"
-                >
-                  Edit
-                </a>
-
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm flex-fill"
-                  [disabled]="deletingId === post._id"
-                  (click)="deletePost(post)"
-                >
-                  {{
-                    deletingId === post._id
-                      ? 'Deleting...'
-                      : 'Delete'
-                  }}
-                </button>
-              </div>
-            </div>
+            <app-blog-card
+              class="d-block h-100"
+              [post]="post"
+              [showActions]="true"
+              [deleting]="deletingId === post._id"
+              (deleteRequested)="deletePost($event)"
+            ></app-blog-card>
           </div>
         </div>
       </div>
