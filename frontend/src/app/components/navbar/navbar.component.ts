@@ -20,6 +20,7 @@ import { AuthService } from '../../services/auth.service';
         <a
           class="navbar-brand d-flex align-items-center gap-2 fw-bold"
           routerLink="/"
+          (click)="closeMenu()"
         >
           <img
             src="mean-blogs-logo.svg"
@@ -33,15 +34,17 @@ import { AuthService } from '../../services/auth.service';
         <button
           class="navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          [attr.aria-expanded]="menuOpen"
           aria-label="Toggle navigation"
+          (click)="toggleMenu()"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div
           class="collapse navbar-collapse"
+          [class.show]="menuOpen"
           id="navbarNav"
         >
           <ul class="navbar-nav ms-auto align-items-lg-center">
@@ -51,6 +54,7 @@ import { AuthService } from '../../services/auth.service';
                 routerLink="/"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
+                (click)="closeMenu()"
               >
                 Home
               </a>
@@ -64,6 +68,7 @@ import { AuthService } from '../../services/auth.service';
                 class="nav-link"
                 routerLink="/my-blogs"
                 routerLinkActive="active"
+                (click)="closeMenu()"
               >
                 My Blogs
               </a>
@@ -77,6 +82,7 @@ import { AuthService } from '../../services/auth.service';
                 class="nav-link"
                 routerLink="/create"
                 routerLinkActive="active"
+                (click)="closeMenu()"
               >
                 Create
               </a>
@@ -90,6 +96,7 @@ import { AuthService } from '../../services/auth.service';
                 class="nav-link"
                 routerLink="/login"
                 routerLinkActive="active"
+                (click)="closeMenu()"
               >
                 Login
               </a>
@@ -103,6 +110,7 @@ import { AuthService } from '../../services/auth.service';
                 class="nav-link"
                 routerLink="/register"
                 routerLinkActive="active"
+                (click)="closeMenu()"
               >
                 Register
               </a>
@@ -116,6 +124,7 @@ import { AuthService } from '../../services/auth.service';
                 class="btn btn-outline-light btn-sm profile-button"
                 routerLink="/profile"
                 routerLinkActive="active"
+                (click)="closeMenu()"
               >
                 <i class="bi bi-person-circle me-1"></i>
                 Profile
@@ -149,7 +158,17 @@ import { AuthService } from '../../services/auth.service';
     }
 
     @media (max-width: 991px) {
+      .navbar-collapse {
+        padding-top: 0.75rem;
+      }
+
+      .nav-link {
+        padding: 0.65rem 0;
+      }
+
       .profile-button {
+        display: inline-flex;
+        align-items: center;
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
       }
@@ -158,4 +177,13 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavbarComponent {
   authService = inject(AuthService);
+  menuOpen = false;
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu(): void {
+    this.menuOpen = false;
+  }
 }
