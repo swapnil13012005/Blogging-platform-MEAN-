@@ -1,9 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BlogService } from '../../services/blog.service';
 import { BlogPost } from '../../models/blog';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 import { BlogCardComponent } from '../../components/blog-card/blog-card.component';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject
+} from '@angular/core';
+
+
 
 @Component({
   selector: 'app-my-blogs-page',
@@ -30,17 +37,21 @@ export class MyBlogsPage implements OnInit {
   posts: BlogPost[] = [];
   loading = false;
   error = '';
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.loading = true;
-    this.blogService.getBlogs().subscribe({
-      next: (posts) => {
+
+    this.blogService.getMyBlogs().subscribe({
+      next: (posts: BlogPost[]) => {
         this.posts = posts;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'Unable to load your blog posts.';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

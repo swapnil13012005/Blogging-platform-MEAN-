@@ -1,4 +1,3 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
@@ -6,6 +5,12 @@ import { AuthService } from '../../services/auth.service';
 import { BlogCardComponent } from '../../components/blog-card/blog-card.component';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 import { BlogPost } from '../../models/blog';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject
+} from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -54,17 +59,21 @@ export class HomePage implements OnInit {
   posts: BlogPost[] = [];
   loading = false;
   error = '';
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.loading = true;
+
     this.blogService.getBlogs().subscribe({
-      next: (posts) => {
+      next: (posts: BlogPost[]) => {
         this.posts = posts;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'Unable to load posts right now.';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

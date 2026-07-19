@@ -11,6 +11,18 @@ exports.getAllPosts = async (req, res) => {
   }
 };
 
+exports.getMyPosts = async (req, res) => {
+  try {
+    const posts = await Post.find({ userId: req.userId })
+      .populate('userId', 'username email')
+      .sort({ createdAt: -1 });
+
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Get single post
 exports.getPost = async (req, res) => {
   try {

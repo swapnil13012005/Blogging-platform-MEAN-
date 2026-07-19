@@ -14,6 +14,10 @@ export class BlogService {
     return this.http.get<BlogPost[]>(this.apiUrl);
   }
 
+  getMyBlogs(): Observable<BlogPost[]> {
+    return this.http.get<BlogPost[]>(`${this.apiUrl}/mine`);
+  }
+
   getBlog(id: string): Observable<BlogPost> {
     return this.http.get<BlogPost>(`${this.apiUrl}/${id}`);
   }
@@ -31,6 +35,6 @@ export class BlogService {
   }
 
   searchBlogs(term: string): Observable<BlogPost[]> {
-    return this.http.get<BlogPost[]>(`${this.apiUrl}`);
+    return this.http.get<BlogPost[]>(this.apiUrl);
   }
 }

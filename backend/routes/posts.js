@@ -50,6 +50,7 @@ const idValidation = [
 ];
 
 router.get('/', postController.getAllPosts);
+router.get('/mine', authMiddleware, postController.getMyPosts);
 router.get('/:id', idValidation, handleValidationErrors, postController.getPost);
 router.post('/', authMiddleware, createPostValidation, handleValidationErrors, postController.createPost);
 router.put('/:id', authMiddleware, updatePostValidation, handleValidationErrors, postController.updatePost);
