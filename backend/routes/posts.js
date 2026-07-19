@@ -55,7 +55,7 @@ router.get('/:id', idValidation, handleValidationErrors, postController.getPost)
 router.post('/', authMiddleware, createPostValidation, handleValidationErrors, postController.createPost);
 router.put('/:id', authMiddleware, updatePostValidation, handleValidationErrors, postController.updatePost);
 router.delete('/:id', authMiddleware, idValidation, handleValidationErrors, postController.deletePost);
-router.post('/setup/seed', postController.seedData);
+
 
 module.exports = router;
 

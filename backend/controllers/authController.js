@@ -24,9 +24,25 @@ exports.register = async (req, res) => {
     const user = new User({ username, email, password });
     await user.save();
 
-    res.status(201).json({ 
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        username: user.username
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRE || '7d'
+      }
+    );
+
+    res.status(201).json({
       message: 'User registered successfully',
-      user: { id: user._id, username: user.username, email: user.email }
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email
+      }
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -55,8 +71,8 @@ exports.login = async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { userId: user._id, username: user.username },
-      process.env.JWT_SECRET || 'your_jwt_secret_key',
-      { expiresIn: '7d' }
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRE || '7d' }
     );
 
     res.json({

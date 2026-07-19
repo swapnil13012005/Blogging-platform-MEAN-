@@ -5,13 +5,15 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
-    "ng": "ng",
-    "ng:serve": "ng serve",
-    "ng:build": "ng build",
-    "build": "npm run ng:build && npm run server"
+    "dev": "nodemon server.js"
   },
-  "keywords": ["mean", "blog", "mongodb", "express", "angular"],
+  "keywords": [
+    "mean",
+    "blog",
+    "mongodb",
+    "express",
+    "angular"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {

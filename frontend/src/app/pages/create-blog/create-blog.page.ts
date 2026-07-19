@@ -1,4 +1,8 @@
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject
+} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -34,6 +38,7 @@ export class CreateBlogPage {
   private fb = inject(FormBuilder);
   private blogService = inject(BlogService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   form: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -59,6 +64,7 @@ export class CreateBlogPage {
       error: () => {
         this.loading = false;
         this.error = 'Could not create the post.';
+        this.cdr.detectChanges();
       }
     });
   }

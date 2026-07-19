@@ -8,8 +8,15 @@ const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const fs = require('fs');
 const path = require('path');
-
 const app = express();
+const requiredEnv = ['MONGODB_URI', 'JWT_SECRET'];
+
+for (const name of requiredEnv) {
+  if (!process.env[name]) {
+    console.error(`Missing required environment variable: ${name}`);
+    process.exit(1);
+  }
+}
 
 // Security Middleware
 app.use(helmet());
@@ -42,14 +49,6 @@ app.use('/api/', limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/mean_blog_db', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => console.log('✓ MongoDB connected'))
-  .catch(err => console.error('✗ MongoDB connection error:', err));
-
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/posts', require('./routes/posts'));
@@ -60,7 +59,14 @@ app.get('/health', (req, res) => {
 });
 
 // Serve the Angular build as the main frontend entry point
-const frontendDistPath = path.join(__dirname, '..', 'frontend', 'dist', 'frontend');
+const frontendDistPath = path.join(
+  __dirname,
+  '..',
+  'frontend',
+  'dist',
+  'frontend',
+  'browser'
+);
 const frontendIndexPath = path.join(frontendDistPath, 'index.html');
 
 if (fs.existsSync(frontendDistPath)) {
@@ -100,9 +106,21 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
-app.listen(PORT, () => {
-  console.log(`\n🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📦 Environment: ${NODE_ENV}`);
-  console.log(`📝 API Base: http://localhost:${PORT}/api`);
-});
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
 
+    console.log('✓ MongoDB connected');
+
+    app.listen(PORT, () => {
+      console.log(`\n🚀 Server running on http://localhost:${PORT}`);
+      console.log(`📦 Environment: ${NODE_ENV}`);
+      console.log(`📝 API Base: http://localhost:${PORT}/api`);
+    });
+  } catch (error) {
+    console.error('✗ MongoDB connection error:', error.message);
+    process.exit(1);
+  }
+};
+
+startServer();

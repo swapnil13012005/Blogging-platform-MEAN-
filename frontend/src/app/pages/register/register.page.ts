@@ -1,4 +1,8 @@
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject
+} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -45,6 +49,7 @@ export class RegisterPage {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   form: FormGroup = this.fb.group({
     username: ['', Validators.required],
@@ -68,9 +73,10 @@ export class RegisterPage {
         this.loading = false;
         this.router.navigate(['/']);
       },
-      error: (err) => {
+      error: (err: any) => {
         this.loading = false;
         this.error = err?.error?.error || 'Unable to register right now.';
+        this.cdr.detectChanges();
       }
     });
   }

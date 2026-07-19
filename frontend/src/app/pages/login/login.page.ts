@@ -1,4 +1,8 @@
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject
+} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -41,7 +45,7 @@ export class LoginPage {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-
+  private cdr = inject(ChangeDetectorRef);
   form: FormGroup = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.required]
@@ -66,6 +70,7 @@ export class LoginPage {
       error: () => {
         this.loading = false;
         this.error = 'Invalid username or password.';
+        this.cdr.detectChanges();
       }
     });
   }

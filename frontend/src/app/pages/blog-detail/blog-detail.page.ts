@@ -1,4 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
@@ -26,6 +31,7 @@ export class BlogDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private blogService = inject(BlogService);
+  private cdr = inject(ChangeDetectorRef);
 
   post: BlogPost | null = null;
   loading = false;
@@ -40,13 +46,15 @@ export class BlogDetailPage implements OnInit {
 
     this.loading = true;
     this.blogService.getBlog(id).subscribe({
-      next: (post) => {
+      next: (post: BlogPost) => {
         this.post = post;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'This post could not be found.';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
