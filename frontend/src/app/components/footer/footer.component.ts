@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-footer',
   standalone: true,
   template: `
-    <footer class="bg-dark text-white py-4 mt-5">
+    <footer class="bg-dark text-white py-4">
       <div class="container text-center">
         <p class="mb-0">© 2026 MEAN Blogs. Built with Angular, Express, Node.js and MongoDB.</p>
       </div>
