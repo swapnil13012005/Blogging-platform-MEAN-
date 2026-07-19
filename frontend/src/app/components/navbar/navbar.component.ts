@@ -1,12 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  RouterLink,
+  RouterLinkActive
+} from '@angular/router';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgIf],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    NgIf
+  ],
   template: `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div class="container">
@@ -22,17 +29,98 @@ import { AuthService } from '../../services/auth.service';
 
           <span>MEAN Blogs</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-center">
-            <li class="nav-item"><a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
-            <li class="nav-item" *ngIf="authService.isAuthenticated()"><a class="nav-link" routerLink="/my-blogs" routerLinkActive="active">My Blogs</a></li>
-            <li class="nav-item" *ngIf="authService.isAuthenticated()"><a class="nav-link" routerLink="/create" routerLinkActive="active">Create</a></li>
-            <li class="nav-item" *ngIf="!authService.isAuthenticated()"><a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a></li>
-            <li class="nav-item" *ngIf="!authService.isAuthenticated()"><a class="nav-link" routerLink="/register" routerLinkActive="active">Register</a></li>
-            <li class="nav-item" *ngIf="authService.isAuthenticated()"><button class="btn btn-outline-light btn-sm" (click)="logout()">Logout</button></li>
+
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                routerLink="/"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                Home
+              </a>
+            </li>
+
+            <li
+              class="nav-item"
+              *ngIf="authService.isAuthenticated()"
+            >
+              <a
+                class="nav-link"
+                routerLink="/my-blogs"
+                routerLinkActive="active"
+              >
+                My Blogs
+              </a>
+            </li>
+
+            <li
+              class="nav-item"
+              *ngIf="authService.isAuthenticated()"
+            >
+              <a
+                class="nav-link"
+                routerLink="/create"
+                routerLinkActive="active"
+              >
+                Create
+              </a>
+            </li>
+
+            <li
+              class="nav-item"
+              *ngIf="!authService.isAuthenticated()"
+            >
+              <a
+                class="nav-link"
+                routerLink="/login"
+                routerLinkActive="active"
+              >
+                Login
+              </a>
+            </li>
+
+            <li
+              class="nav-item"
+              *ngIf="!authService.isAuthenticated()"
+            >
+              <a
+                class="nav-link"
+                routerLink="/register"
+                routerLinkActive="active"
+              >
+                Register
+              </a>
+            </li>
+
+            <li
+              class="nav-item ms-lg-2"
+              *ngIf="authService.isAuthenticated()"
+            >
+              <a
+                class="btn btn-outline-light btn-sm profile-button"
+                routerLink="/profile"
+                routerLinkActive="active"
+              >
+                <i class="bi bi-person-circle me-1"></i>
+                Profile
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -54,14 +142,20 @@ import { AuthService } from '../../services/auth.service';
       font-size: 1.25rem;
       letter-spacing: 0.2px;
     }
+
+    .profile-button.active {
+      color: #0d6efd;
+      background: white;
+    }
+
+    @media (max-width: 991px) {
+      .profile-button {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+    }
   `]
 })
 export class NavbarComponent {
   authService = inject(AuthService);
-  router = inject(Router);
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/']);
-  }
 }
