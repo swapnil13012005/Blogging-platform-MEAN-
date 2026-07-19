@@ -9,7 +9,11 @@ const rateLimit = require('express-rate-limit');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const requiredEnv = ['MONGODB_URI', 'JWT_SECRET'];
+const requiredEnv = [
+  'MONGODB_URI',
+  'JWT_SECRET',
+  'OPENAI_API_KEY'
+];
 
 for (const name of requiredEnv) {
   if (!process.env[name]) {
@@ -52,6 +56,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/posts', require('./routes/posts'));
+app.use('/api/ai', require('./routes/ai'));
 
 // Health Check
 app.get('/health', (req, res) => {

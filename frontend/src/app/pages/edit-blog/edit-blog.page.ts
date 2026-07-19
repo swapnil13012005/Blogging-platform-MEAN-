@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
 import { BlogPost } from '../../models/blog';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
+import { AiService, AiAction } from '../../services/ai.service';
 
 @Component({
   selector: 'app-edit-blog-page',
@@ -82,6 +83,60 @@ import { LoadingSpinnerComponent } from '../../components/loading-spinner/loadin
             </small>
           </div>
 
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              [disabled]="aiLoading !== null"
+              (click)="useAI('suggest')"
+            >
+              <i class="bi bi-lightbulb me-1"></i>
+
+              {{
+                aiLoading === 'suggest'
+                  ? 'Generating suggestions...'
+                  : 'AI Suggestions'
+              }}
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-outline-success"
+              [disabled]="aiLoading !== null"
+              (click)="useAI('correct')"
+            >
+              <i class="bi bi-magic me-1"></i>
+
+              {{
+                aiLoading === 'correct'
+                  ? 'Correcting...'
+                  : 'Correct Writing'
+              }}
+            </button>
+          </div>
+
+          <div
+            *ngIf="aiSuggestions"
+            class="alert alert-primary ai-suggestions"
+          >
+            <div class="fw-bold mb-2">
+              <i class="bi bi-stars me-1"></i>
+              AI Suggestions
+            </div>
+
+            <div class="suggestion-text">
+              {{ aiSuggestions }}
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary mt-3"
+              (click)="aiSuggestions = ''"
+            >
+              Close
+            </button>
+          </div>
+
           <button
             type="submit"
             class="btn btn-primary me-2"
@@ -102,7 +157,12 @@ import { LoadingSpinnerComponent } from '../../components/loading-spinner/loadin
       </div>
     </div>
   `,
-  styles: []
+  styles: [`
+    .suggestion-text {
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+  `]
 })
 export class EditBlogPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -110,6 +170,10 @@ export class EditBlogPage implements OnInit {
   private router = inject(Router);
   private blogService = inject(BlogService);
   private cdr = inject(ChangeDetectorRef);
+  private aiService = inject(AiService);
+
+  aiLoading: AiAction | null = null;
+  aiSuggestions = '';
 
   postId = '';
   loadingPost = true;
@@ -187,5 +251,55 @@ export class EditBlogPage implements OnInit {
 
   cancel(): void {
     this.router.navigate(['/my-blogs']);
+  }
+
+  useAI(action: AiAction): void {
+    const title = this.form.controls['title'].value?.trim();
+    const content = this.form.controls['content'].value?.trim();
+
+    if (!title || title.length < 5) {
+      this.error = 'Enter a title containing at least 5 characters.';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    if (!content || content.length < 10) {
+      this.error = 'Enter content containing at least 10 characters.';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    this.aiLoading = action;
+    this.aiSuggestions = '';
+    this.error = '';
+
+    this.aiService.reviewBlog(title, content, action).subscribe({
+      next: (response) => {
+        if (action === 'correct') {
+          const apply = window.confirm(
+            'Apply the AI-corrected content?'
+          );
+
+          if (apply) {
+            this.form.patchValue({
+              content: response.result
+            });
+
+            this.form.controls['content'].markAsDirty();
+          }
+        } else {
+          this.aiSuggestions = response.result;
+        }
+
+        this.aiLoading = null;
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {
+        this.aiLoading = null;
+        this.error =
+          err?.error?.error || 'AI request failed.';
+        this.cdr.detectChanges();
+      }
+    });
   }
 }   
