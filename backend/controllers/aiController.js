@@ -73,7 +73,7 @@ ${content}
     const response = await ai.models.generateContent({
       model:
         process.env.GEMINI_MODEL ||
-        'gemini-2.5-flash-lite',
+        'gemini-3-flash-preview',
 
       contents: prompt,
 
@@ -94,6 +94,13 @@ ${content}
     res.json({ result });
   } catch (error) {
     console.error('Gemini review error:', error);
+
+    if (error.status === 404) {
+        return res.status(503).json({
+            error:
+            'Configured Gemini model is unavailable. Check GEMINI_MODEL in backend/.env.'
+        });
+    }
 
     if (error.status === 429) {
       return res.status(429).json({
