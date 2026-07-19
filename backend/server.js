@@ -12,7 +12,7 @@ const app = express();
 const requiredEnv = [
   'MONGODB_URI',
   'JWT_SECRET',
-  'OPENAI_API_KEY'
+  'GEMINI_API_KEY'
 ];
 
 for (const name of requiredEnv) {
@@ -57,6 +57,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/posts', require('./routes/posts'));
 app.use('/api/ai', require('./routes/ai'));
+
 
 // Health Check
 app.get('/health', (req, res) => {
