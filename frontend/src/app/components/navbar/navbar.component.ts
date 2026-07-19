@@ -10,7 +10,18 @@ import { AuthService } from '../../services/auth.service';
   template: `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div class="container">
-        <a class="navbar-brand fw-bold" routerLink="/">MEAN Blog</a>
+        <a
+          class="navbar-brand d-flex align-items-center gap-2 fw-bold"
+          routerLink="/"
+        >
+          <img
+            src="mean-blogs-logo.svg"
+            alt="MEAN Blogs logo"
+            class="brand-logo"
+          />
+
+          <span>MEAN Blogs</span>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -27,9 +38,23 @@ import { AuthService } from '../../services/auth.service';
       </div>
     </nav>
   `,
-  styles: [
-    `.navbar { padding: 0.9rem 0; }`
-  ]
+  styles: [`
+    .navbar {
+      padding: 0.75rem 0;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .navbar-brand {
+      font-size: 1.25rem;
+      letter-spacing: 0.2px;
+    }
+  `]
 })
 export class NavbarComponent {
   authService = inject(AuthService);

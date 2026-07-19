@@ -20,7 +20,7 @@ import {
     <section class="hero-section bg-white rounded-4 p-4 p-md-5 shadow-sm mb-4">
       <div class="row align-items-center">
         <div class="col-lg-8">
-          <h1 class="display-6 fw-bold">Welcome to MEAN Blog</h1>
+          <h1 class="display-6 fw-bold">Welcome to MEAN Blogs</h1>
           <p class="lead text-muted">Discover stories, share ideas, and build your community.</p>
           <div class="mt-3" *ngIf="!authService.isAuthenticated()">
             <a routerLink="/register" class="btn btn-primary me-2">Create Account</a>
