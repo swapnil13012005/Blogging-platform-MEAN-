@@ -1,9 +1,0 @@
-<section class="card" *ngIf="!loading && post">
-  <h1 class="page-title">{{ post.title }}</h1>
-  <p class="page-subtitle">By {{ post.author }}</p>
-  <p>{{ post.content }}</p>
-  <button *ngIf="authService.isAuthenticated()" type="button" (click)="deletePost()">Delete post</button>
-</section>
-
-<div *ngIf="loading" class="card">Loading post...</div>
-<div *ngIf="error" class="alert">{{ error }}</div>
