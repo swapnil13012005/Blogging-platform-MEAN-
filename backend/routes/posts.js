@@ -17,8 +17,8 @@ const handleValidationErrors = (req, res, next) => {
 const createPostValidation = [
   body('title')
     .trim()
-    .isLength({ min: 3, max: 200 })
-    .withMessage('Title must be between 3 and 200 characters'),
+    .isLength({ min: 5, max: 200 })
+    .withMessage('Title must be between 5 and 200 characters'),
   body('content')
     .trim()
     .isLength({ min: 10 })
@@ -33,8 +33,8 @@ const updatePostValidation = [
   body('title')
     .optional()
     .trim()
-    .isLength({ min: 3, max: 200 })
-    .withMessage('Title must be between 3 and 200 characters'),
+    .isLength({ min: 5, max: 200 })
+    .withMessage('Title must be between 5 and 200 characters'),
   body('content')
     .optional()
     .trim()

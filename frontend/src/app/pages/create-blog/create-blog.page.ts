@@ -41,8 +41,21 @@ export class CreateBlogPage {
   private cdr = inject(ChangeDetectorRef);
 
   form: FormGroup = this.fb.group({
-    title: ['', Validators.required],
-    content: ['', Validators.required]
+    title: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(200)
+      ]
+    ],
+    content: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(10)
+      ]
+    ]
   });
 
   loading = false;
